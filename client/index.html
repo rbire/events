@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Real Estate Blockchain Initiatives - Event Catalog Application</title>
+    <link rel="icon" href="favicon.png" type="image/gif">
+
+    <!-- require jquery and bootstrap scripts -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+    
+    <!-- adding style here -->
+    <style type="text/css">
+      header{
+        background-color: lightgray;
+        font-size:20px;
+        padding:15px;
+      }
+      header, .form-group{
+        margin-bottom: 3%;
+      }
+      .form-group{
+        width:50%;
+      }
+      #body{
+        margin-left:3%;
+        margin-right:3%;
+      }
+      .form-control{
+        margin: 8px;
+      }
+      #right_header{
+        width:20%;
+        font-size:15px;
+        margin-right:0px;
+      }
+      #left_header{
+        margin-left:0;
+        width:40%;
+        display:inline-block;
+      } 
+      #id {
+        width:49%;
+        display: inline-block;
+      }
+      table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+      }
+      td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+      }
+      tr:nth-child(even) {
+          background-color: #dddddd;
+      }
+    </style>
+  </head>
+  <body ng-app="application" ng-controller="appController">
+    <header>
+      <div id="left_header">Event Catalog</div>
+      <i id="right_header">Blockchain Application for RESO Event Catalog</i>
+    </header>
+
+    <div id="body">
+      <div class="form-group">
+        <label>Query All Events</label>
+        <p><input id="queryAllEvents" type="submit" value="Query" class="btn btn-primary" ng-click="queryAllEvents()"></p>
+      </div> 
+      <table id="all_events" class="table" align="center">
+        <tr>
+          <th>ID</th>
+          <th>Category</th>
+          <th>Name</th>
+          <th>Time</th>
+          <th>Data</th>
+        </tr>
+        <tr ng-repeat="rec in all_events">
+          <td>{{rec.Key}}</td>
+          <td>{{rec.category}}</td>
+          <td>{{rec.name}}</td>
+          <td>{{rec.timestamp}}</td>
+          <td>{{rec.data}}</td>
+        </tr>
+      </table>
+
+      <div class="form-group">
+        <label>Query a Specific Record</label><br>
+        <h5 style="color:red;margin-bottom:2%" id="error_query">Error: Please enter a valid Event Record Id</h5>        
+        Record Id: <input id="createName" class="form-control" type="text" placeholder="Ex: 3" ng-model="record_id">
+        <input id="querySubmit" type="submit" value="Query" class="btn btn-primary" ng-click="queryEvents()">
+      </div>
+
+      <table id="query_events" class="table" align="center">
+        <tr>
+          <th>Category</th>
+          <th>Name</th>
+          <th>Time</th>
+          <th>Data</th>
+        </tr>
+
+        <tr>
+          <td>{{query_events.category}}</td>
+          <td>{{query_events.name}}</td>
+          <td>{{query_events.timestamp}}</td>
+          <td>{{query_events.data}}</td>
+        </tr>
+      </table>
+
+      <div class="form-group">
+        <label>Record Event</label>
+        <h5 style="color:green;margin-bottom:2%" id="success_create">Success! Tx ID: {{create_events}}</h5>
+        <br>
+        Id: <input class="form-control" type="text" placeholder="Ex: 11" ng-model="record.id">
+        Category: <input class="form-control" type="text" placeholder="Ex: 0239L" ng-model="record.category">
+        Name: <input id="createName" class="form-control" type="text" placeholder="Ex: 28.012" ng-model="record.name"> 
+        TimeStamp: <input id="createName" class="form-control" type="text" placeholder="Ex: 150.405" ng-model="record.timestamp">
+        Data: <input class="form-control" type="text" placeholder="Ex: 4982342301" ng-model="record.data">
+        <input id="createSubmit" type="submit" value="Create" class="btn btn-primary" ng-click="recordEvents()"> 
+      </div>
+    </div>
+  </body>
+    <!-- requiring the angular page -->
+    <script type="text/javascript" src="app.js"> </script>
+</html>
