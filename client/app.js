@@ -45,7 +45,7 @@ app.controller('appController', function($scope, appFactory){
 		appFactory.queryEventHistory(id, function(data){
 			var array = [];
 			for (var i = 0; i < data.length; i++){
-				array.push(data[i].value);
+				array.push(data[i].Value);
 			}
 			$scope.event_history = array;
 		});

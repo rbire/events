@@ -14,7 +14,7 @@ var os            = require('os');
 var express = require('express');
 var app = express();
 
-require('./routes.js')(app);
+require('./server/routes.js')(app);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/client'));
