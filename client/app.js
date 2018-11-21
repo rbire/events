@@ -40,8 +40,19 @@ app.controller('appController', function($scope, appFactory){
 		});
 	}
 
-	$scope.recordEvents = function(){
+	$scope.queryHistory = function(){
+		var id = $scope.record_id;
+		appFactory.queryEventHistory(id, function(data){
+			var array = [];
+			for (var i = 0; i < data.length; i++){
+				array.push(data[i].value);
+			}
+			$scope.event_history = array;
+		});
+	}
 
+
+	$scope.recordEvents = function(){
 		appFactory.recordEvents($scope.record, function(data){
 			$scope.create_events = data;
 			$("#success_create").show();
@@ -63,6 +74,12 @@ app.factory('appFactory', function($http){
 
 	factory.queryEvents = function(id, callback){
     	$http.get('/get_event/'+id).success(function(output){
+			callback(output)
+		});
+	}
+
+	factory.queryEventHistory = function(id, callback){
+    	$http.get('/get_event_history/'+id).success(function(output){
 			callback(output)
 		});
 	}

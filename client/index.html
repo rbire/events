@@ -92,6 +92,7 @@
         <h5 style="color:red;margin-bottom:2%" id="error_query">Error: Please enter a valid Event Record Id</h5>        
         Record Id: <input id="createName" class="form-control" type="text" placeholder="Ex: 3" ng-model="record_id">
         <input id="querySubmit" type="submit" value="Query" class="btn btn-primary" ng-click="queryEvents()">
+        <input id="historySubmit" type="submit" value="History" class="btn btn-primary" ng-click="queryHistory()">
       </div>
 
       <table id="query_events" class="table" align="center">
@@ -101,12 +102,19 @@
           <th>Time</th>
           <th>Data</th>
         </tr>
-
         <tr>
           <td>{{query_events.category}}</td>
           <td>{{query_events.name}}</td>
           <td>{{query_events.timestamp}}</td>
           <td>{{query_events.data}}</td>
+        </tr>
+      </table>
+      <table id="event_history" class="table" align="center">
+        <tr ng-repeat="rec in event_history">
+          <td>{{rec.category}}</td>
+          <td>{{rec.name}}</td>
+          <td>{{rec.timestamp}}</td>
+          <td>{{rec.data}}</td>
         </tr>
       </table>
 

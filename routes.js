@@ -6,10 +6,14 @@ module.exports = function(app){
   app.get('/get_event/:id', function(req, res){
     events.get_events(req, res);
   });
+  app.get('/get_event_history/:id', function(req, res){
+    events.get_events_history(req, res);
+  });
   app.get('/add_event/:events', function(req, res){
     events.add_events(req, res);
   });
   app.get('/get_all_events', function(req, res){
     events.get_all_events(req, res);
   });
+
 }

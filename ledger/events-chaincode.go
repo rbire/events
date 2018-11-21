@@ -46,6 +46,8 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 		return s.recordEvents(APIstub, args)
 	} else if function == "queryAllEvents" {
 		return s.queryAllEvents(APIstub)
+	} else if function == "getHistory" { //read history of a listing (audit)
+		return getHistory(APIstub, args)
 	}
 	return shim.Error("Invalid Smart Contract function name.")
 }
@@ -139,6 +141,53 @@ func (s *SmartContract) queryAllEvents(APIstub shim.ChaincodeStubInterface) sc.R
 	fmt.Printf("- queryAllEvents:\n%s\n", buffer.String())
 
 	return shim.Success(buffer.Bytes())
+}
+
+func getHistory(stub shim.ChaincodeStubInterface, args []string) sc.Response {
+	type AuditHistory struct {
+		TxId  string `json:"txId"`
+		Value Events `json:"value"`
+	}
+	var history []AuditHistory
+	var listing Events
+
+	if len(args) != 1 {
+		return shim.Error("Incorrect number of arguments. Expecting 1")
+	}
+
+	listingId := args[0]
+	fmt.Printf("- start getHistoryForListing: %s\n", listingId)
+
+	// Get History
+	resultsIterator, err := stub.GetHistoryForKey(listingId)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	defer resultsIterator.Close()
+
+	for resultsIterator.HasNext() {
+		historyData, err := resultsIterator.Next()
+		if err != nil {
+			return shim.Error(err.Error())
+		}
+
+		var tx AuditHistory
+		tx.TxId = historyData.TxId                  //copy transaction id over
+		json.Unmarshal(historyData.Value, &listing) //un stringify it aka JSON.parse()
+		if historyData.Value == nil {               //listing has been deleted
+			var emptyListing Events
+			tx.Value = emptyListing //copy nil listing
+		} else {
+			json.Unmarshal(historyData.Value, &listing) //un stringify it aka JSON.parse()
+			tx.Value = listing                          //copy listing over
+		}
+		history = append(history, tx) //add this tx to the list
+	}
+	fmt.Printf("- getHistory returning:\n%s", history)
+
+	//change to array of bytes
+	historyAsBytes, _ := json.Marshal(history) //convert to array of bytes
+	return shim.Success(historyAsBytes)
 }
 
 /*
