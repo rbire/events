@@ -2,15 +2,26 @@
 var app = angular.module('application', []);
 // Angular Controller
 app.controller('appController', function($scope, appFactory){
-
 	$("#success_holder").hide();
 	$("#success_create").hide();
 	$("#error_holder").hide();
 	$("#error_query").hide();
-	
+	$("#event_history").hide();
+	$scope.resources = ["Property", "Agent", "Office"];
+	$scope.entities = ["Builder","Broker", "MLS", "Escrow", "County", "City", "Lender","Agent","Owner", "Buyer", "Vendor" ];
+	$scope.events = ["Registered","Contract","Offer","Openhouse", "Active", "Pending", "Funded", "Closed", "Deed", "Lein", "Permit" ];
+	$scope.record = {
+        arg_4: new Date()
+	  };
+	$scope.query = {
+		arg:"arg_0",
+		op:"$regex",
+		val:""
+	};
 	$scope.queryAllEvents = function(){
-
-		appFactory.queryAllEvents(function(data){
+		$("#event_history").hide();
+		var query = $scope.query.arg +'|' + $scope.query.op +'|' + $scope.query.val
+		appFactory.queryAllEvents(query,function(data){
 			var array = [];
 			for (var i = 0; i < data.length; i++){
 				parseInt(data[i].Key);
@@ -23,39 +34,23 @@ app.controller('appController', function($scope, appFactory){
 			$scope.all_events = array;
 		});
 	}
-
-	$scope.queryEvents = function(){
-
-		var id = $scope.record_id;
-
-		appFactory.queryEvents(id, function(data){
-			$scope.query_events = data;
-
-			if ($scope.query_events == "Could not locate Events"){
-				console.log()
-				$("#error_query").show();
-			} else{
-				$("#error_query").hide();
-			}
-		});
-	}
-
-	$scope.queryHistory = function(){
-		var id = $scope.record_id;
+	$scope.queryHistory = function(id){
 		appFactory.queryEventHistory(id, function(data){
 			var array = [];
 			for (var i = 0; i < data.length; i++){
 				array.push(data[i].Value);
 			}
 			$scope.event_history = array;
+			$("#event_history").show();
 		});
 	}
 
 
 	$scope.recordEvents = function(){
+		$scope.create_events = "Sending..";
+		$("#success_create").show();
 		appFactory.recordEvents($scope.record, function(data){
-			$scope.create_events = data;
-			$("#success_create").show();
+			$scope.create_events = "Success! TxId:" + data;
 		});
 	}
 });
@@ -65,9 +60,8 @@ app.factory('appFactory', function($http){
 	
 	var factory = {};
 
-    factory.queryAllEvents = function(callback){
-
-    	$http.get('/get_all_events/').success(function(output){
+    factory.queryAllEvents = function(query,callback){
+    	$http.get('/get_all_events/'+query).success(function(output){
 			callback(output)
 		});
 	}
@@ -85,8 +79,7 @@ app.factory('appFactory', function($http){
 	}
 
 	factory.recordEvents = function(data, callback){
-		var record = data.id + "-" + data.category + "-" + data.name + "-" + data.timestamp + "-" + data.data;
-
+		var record = data.arg_0 + "|" + data.arg_1 + "|" + data.arg_2 + "|" + data.arg_3 + "|" + data.arg_4 + "|V1";
     	$http.get('/add_event/'+record).success(function(output){
 			callback(output)
 		});

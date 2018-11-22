@@ -2,16 +2,17 @@ var efc 		  = require('./efc.js');
 module.exports = (function() {
 return{
 	get_all_events: function(req, res){
+		var q = req.params.query.split("|");
 		const request = {
 			chaincodeId: 'events',
 			txId: null,
 			fcn: 'queryAllEvents',
-			args: ['']
+			args:  ["{\"selector\": {\""+ q[0] +"\": {\""+ q[1] +"\": \""+ q[2] + "\"}}}"]
 		};
 		efc.query_events(request,res);
 	},
 	add_events: function(req, res){
-		var array = req.params.events.split("-");
+		var array = req.params.events.split("|");
 		console.log(array);		
 		const request = {
 			chaincodeId: 'events',

@@ -61,72 +61,75 @@
   </head>
   <body ng-app="application" ng-controller="appController">
     <header>
-      <div id="left_header">Event Catalog</div>
+      <div id="left_header">RBI</div>
       <i id="right_header">Blockchain Application for RESO Event Catalog</i>
     </header>
 
     <div id="body">
       <div class="form-group">
         <label>Query All Events</label>
+        <select class="form-control" ng-model="query.arg">
+            <option value="arg_0">Id</option>
+            <option value="arg_1">Resource</option>
+            <option value="arg_2">Entity</option>
+            <option value="arg_3">Event</option>
+        </select>        
+        <input type="text" class="form-control" placeholder="search for..." ng-model="query.val">
         <p><input id="queryAllEvents" type="submit" value="Query" class="btn btn-primary" ng-click="queryAllEvents()"></p>
       </div> 
       <table id="all_events" class="table" align="center">
         <tr>
           <th>ID</th>
-          <th>Category</th>
-          <th>Name</th>
-          <th>Time</th>
-          <th>Data</th>
+          <th>Resource</th>
+          <th>Entity</th>
+          <th>Event</th>
+          <th>DateTime</th>
+          <th>Version</th>
         </tr>
-        <tr ng-repeat="rec in all_events">
-          <td>{{rec.Key}}</td>
-          <td>{{rec.category}}</td>
-          <td>{{rec.name}}</td>
-          <td>{{rec.timestamp}}</td>
-          <td>{{rec.data}}</td>
+        <tr ng-click="queryHistory(rec.Key)" ng-repeat="rec in all_events">
+          <td>{{rec.arg_0}}</td>
+          <td>{{rec.arg_1}}</td>
+          <td>{{rec.arg_2}}</td>
+          <td>{{rec.arg_3}}</td>
+          <td>{{rec.arg_4}}</td>
+          <td>{{rec.arg_5}}</td>
         </tr>
-      </table>
+      </table> 
 
-      <div class="form-group">
-        <label>Query a Specific Record</label><br>
-        <h5 style="color:red;margin-bottom:2%" id="error_query">Error: Please enter a valid Event Record Id</h5>        
-        Record Id: <input id="createName" class="form-control" type="text" placeholder="Ex: 3" ng-model="record_id">
-        <input id="querySubmit" type="submit" value="Query" class="btn btn-primary" ng-click="queryEvents()">
-        <input id="historySubmit" type="submit" value="History" class="btn btn-primary" ng-click="queryHistory()">
-      </div>
-
-      <table id="query_events" class="table" align="center">
-        <tr>
-          <th>Category</th>
-          <th>Name</th>
-          <th>Time</th>
-          <th>Data</th>
-        </tr>
-        <tr>
-          <td>{{query_events.category}}</td>
-          <td>{{query_events.name}}</td>
-          <td>{{query_events.timestamp}}</td>
-          <td>{{query_events.data}}</td>
-        </tr>
-      </table>
       <table id="event_history" class="table" align="center">
-        <tr ng-repeat="rec in event_history">
-          <td>{{rec.category}}</td>
-          <td>{{rec.name}}</td>
-          <td>{{rec.timestamp}}</td>
-          <td>{{rec.data}}</td>
+          <tr>
+              <th>Id</th>
+              <th>Resource</th>
+              <th>Entity</th>
+              <th>Event</th>
+              <th>DateTime</th>
+              <th>Version</th>
+          </tr>
+          <tr ng-repeat="rec in event_history">
+              <td>{{rec.arg_0}}</td>
+              <td>{{rec.arg_1}}</td>
+              <td>{{rec.arg_2}}</td>
+              <td>{{rec.arg_3}}</td>
+              <td>{{rec.arg_4}}</td>
+              <td>{{rec.arg_5}}</td>
         </tr>
       </table>
 
       <div class="form-group">
         <label>Record Event</label>
-        <h5 style="color:green;margin-bottom:2%" id="success_create">Success! Tx ID: {{create_events}}</h5>
         <br>
-        Id: <input class="form-control" type="text" placeholder="Ex: 11" ng-model="record.id">
-        Category: <input class="form-control" type="text" placeholder="Ex: 0239L" ng-model="record.category">
-        Name: <input id="createName" class="form-control" type="text" placeholder="Ex: 28.012" ng-model="record.name"> 
-        TimeStamp: <input id="createName" class="form-control" type="text" placeholder="Ex: 150.405" ng-model="record.timestamp">
-        Data: <input class="form-control" type="text" placeholder="Ex: 4982342301" ng-model="record.data">
+        Id: <input class="form-control" type="text" placeholder="Ex: 11" ng-model="record.arg_0">
+        Resource: 
+        <select class="form-control" ng-model="record.arg_1" ng-options="x for x in resources">
+        </select>        
+        Entity: 
+        <select class="form-control" ng-model="record.arg_2" ng-options="x for x in entities">
+        </select>        
+        Event:
+        <select class="form-control" ng-model="record.arg_3" ng-options="x for x in events">
+        </select>        
+        DateTime: <input type="datetime-local" class="form-control" type="text" placeholder="yyyy-MM-dd" ng-model="record.arg_4">
+        <h5 style="color:green;margin-bottom:2%" id="success_create">{{create_events}}</h5>
         <input id="createSubmit" type="submit" value="Create" class="btn btn-primary" ng-click="recordEvents()"> 
       </div>
     </div>

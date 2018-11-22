@@ -12,7 +12,7 @@ module.exports = function(app){
   app.get('/add_event/:events', function(req, res){
     events.add_events(req, res);
   });
-  app.get('/get_all_events', function(req, res){
+  app.get('/get_all_events/:query', function(req, res){
     events.get_all_events(req, res);
   });
 
