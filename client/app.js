@@ -7,11 +7,13 @@ app.controller('appController', function($scope, appFactory){
 	$("#error_holder").hide();
 	$("#error_query").hide();
 	$("#event_history").hide();
-	$scope.resources = ["Property", "Agent", "Office"];
+	$scope.systems = ["Property Listing Service", "Property Registry Service", "Broker Referral Tracking", "Mortgage Industry Service", "Transaction Management Service"];
+	$scope.resources = ["Property","Referral","Tax", "Agent", "Office", "Loan", "Transaction"];
 	$scope.entities = ["Builder","Broker", "MLS", "Escrow", "County", "City", "Lender","Agent","Owner", "Buyer", "Vendor" ];
-	$scope.events = ["Registered","Contract","Offer","Openhouse", "Active", "Pending", "Funded", "Closed", "Deed", "Lein", "Permit" ];
+	$scope.events = [ "Appraisal", "Assessment", "Construction", "Identity", "Improvment", "Contract","Application", "Referral", "Offer","Openhouse", "Price", "Status", "Deed", "Lein", "Permit" ];
+	$scope.actions = ["Accepted","Recorded", "Rejected","Signed","Completed","Created","Changed", "Published", "Funded", "Closed" ];
 	$scope.record = {
-        arg_4: new Date()
+        arg_6: new Date()
 	  };
 	$scope.query = {
 		arg:"arg_0",
@@ -79,7 +81,7 @@ app.factory('appFactory', function($http){
 	}
 
 	factory.recordEvents = function(data, callback){
-		var record = data.arg_0 + "|" + data.arg_1 + "|" + data.arg_2 + "|" + data.arg_3 + "|" + data.arg_4 + "|V1";
+		var record = data.arg_0 + "|" + data.arg_1 + "|" + data.arg_2 + "|" + data.arg_3 + "|" + data.arg_4 + "|" + data.arg_5+ "|" + data.arg_6;
     	$http.get('/add_event/'+record).success(function(output){
 			callback(output)
 		});

@@ -70,9 +70,11 @@
         <label>Query All Events</label>
         <select class="form-control" ng-model="query.arg">
             <option value="arg_0">Id</option>
-            <option value="arg_1">Resource</option>
-            <option value="arg_2">Entity</option>
-            <option value="arg_3">Event</option>
+            <option value="arg_1">System</option>
+            <option value="arg_2">Resource</option>
+            <option value="arg_3">Entity</option>
+            <option value="arg_4">Event</option>
+            <option value="arg_5">Action</option>
         </select>        
         <input type="text" class="form-control" placeholder="search for..." ng-model="query.val">
         <p><input id="queryAllEvents" type="submit" value="Query" class="btn btn-primary" ng-click="queryAllEvents()"></p>
@@ -80,11 +82,12 @@
       <table id="all_events" class="table" align="center">
         <tr>
           <th>ID</th>
+          <th>System</th>
           <th>Resource</th>
           <th>Entity</th>
           <th>Event</th>
+          <th>Action</th>
           <th>DateTime</th>
-          <th>Version</th>
         </tr>
         <tr ng-click="queryHistory(rec.Key)" ng-repeat="rec in all_events">
           <td>{{rec.arg_0}}</td>
@@ -93,17 +96,19 @@
           <td>{{rec.arg_3}}</td>
           <td>{{rec.arg_4}}</td>
           <td>{{rec.arg_5}}</td>
+          <td>{{rec.arg_6}}</td>
         </tr>
       </table> 
 
       <table id="event_history" class="table" align="center">
           <tr>
               <th>Id</th>
+              <th>System</th>
               <th>Resource</th>
               <th>Entity</th>
               <th>Event</th>
+              <th>Action</th>
               <th>DateTime</th>
-              <th>Version</th>
           </tr>
           <tr ng-repeat="rec in event_history">
               <td>{{rec.arg_0}}</td>
@@ -112,6 +117,7 @@
               <td>{{rec.arg_3}}</td>
               <td>{{rec.arg_4}}</td>
               <td>{{rec.arg_5}}</td>
+              <td>{{rec.arg_6}}</td>
         </tr>
       </table>
 
@@ -119,16 +125,22 @@
         <label>Record Event</label>
         <br>
         Id: <input class="form-control" type="text" placeholder="Ex: 11" ng-model="record.arg_0">
+        System: 
+        <select class="form-control" ng-model="record.arg_1" ng-options="x for x in systems">
+        </select>
         Resource: 
-        <select class="form-control" ng-model="record.arg_1" ng-options="x for x in resources">
+        <select class="form-control" ng-model="record.arg_2" ng-options="x for x in resources">
         </select>        
         Entity: 
-        <select class="form-control" ng-model="record.arg_2" ng-options="x for x in entities">
+        <select class="form-control" ng-model="record.arg_3" ng-options="x for x in entities">
         </select>        
         Event:
-        <select class="form-control" ng-model="record.arg_3" ng-options="x for x in events">
+        <select class="form-control" ng-model="record.arg_4" ng-options="x for x in events">
         </select>        
-        DateTime: <input type="datetime-local" class="form-control" type="text" placeholder="yyyy-MM-dd" ng-model="record.arg_4">
+        Action:
+        <select class="form-control" ng-model="record.arg_5" ng-options="x for x in actions">
+        </select>        
+        DateTime: <input type="datetime-local" class="form-control" type="text" placeholder="yyyy-MM-dd" ng-model="record.arg_6">
         <h5 style="color:green;margin-bottom:2%" id="success_create">{{create_events}}</h5>
         <input id="createSubmit" type="submit" value="Create" class="btn btn-primary" ng-click="recordEvents()"> 
       </div>
