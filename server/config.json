@@ -1,0 +1,7 @@
+{
+    "peer":"grpc://localhost:7051",
+    "events":"grpc://localhost:7053",
+    "orderer":"grpc://localhost:7050",
+    "channel":"mychannel",
+    "chaincode":"events"
+}

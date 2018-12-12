@@ -2,14 +2,18 @@ var Fabric_Client = require('fabric-client');
 var path          = require('path');
 var util          = require('util');
 var os            = require('os');
+var config = require('./config.json');
+
 module.exports = (function() {
 return{
 	query_events: function(request, res){
 		var fabric_client = new Fabric_Client();
 
 		// setup the fabric network
-		var channel = fabric_client.newChannel('mychannel');
-		var peer = fabric_client.newPeer('grpc://localhost:7051');
+		console.log(config.peer);
+		console.log(config.chaincode);
+		var channel = fabric_client.newChannel(config.channel);
+		var peer = fabric_client.newPeer(config.peer);
 		channel.addPeer(peer);
 		var member_user = null;
 
@@ -61,10 +65,10 @@ return{
 		var fabric_client = new Fabric_Client();
 
 		// setup the fabric network
-		var channel = fabric_client.newChannel('mychannel');
-		var peer = fabric_client.newPeer('grpc://localhost:7051');
+		var channel = fabric_client.newChannel(config.channel);
+		var peer = fabric_client.newPeer(config.peer);
 		channel.addPeer(peer);
-		var order = fabric_client.newOrderer('grpc://localhost:7050')
+		var order = fabric_client.newOrderer(config.orderer)
 		channel.addOrderer(order);
 
 		var member_user = null;
@@ -133,7 +137,7 @@ return{
 		        // get an eventhub once the fabric client has a user assigned. The user
 		        // is required bacause the event registration must be signed
 		        let event_hub = fabric_client.newEventHub();
-		        event_hub.setPeerAddr('grpc://localhost:7053');
+		        event_hub.setPeerAddr(config.events);
 
 		        // using resolve the promise so that result status may be processed
 		        // under the then clause rather than having the catch clause process

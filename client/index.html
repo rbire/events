@@ -89,7 +89,7 @@
           <th>Action</th>
           <th>DateTime</th>
         </tr>
-        <tr ng-click="queryHistory(rec.Key)" ng-repeat="rec in all_events">
+        <tr ng-click="queryHistory(rec.arg_0)" ng-repeat="rec in all_events">
           <td>{{rec.arg_0}}</td>
           <td>{{rec.arg_1}}</td>
           <td>{{rec.arg_2}}</td>
@@ -109,6 +109,8 @@
               <th>Event</th>
               <th>Action</th>
               <th>DateTime</th>
+              <th>Version</th>
+              <th>App</th>
           </tr>
           <tr ng-repeat="rec in event_history">
               <td>{{rec.arg_0}}</td>
@@ -118,6 +120,9 @@
               <td>{{rec.arg_4}}</td>
               <td>{{rec.arg_5}}</td>
               <td>{{rec.arg_6}}</td>
+              <td>{{rec.arg_7}}</td>
+              <td>{{rec.arg_8}}</td>
+
         </tr>
       </table>
 
