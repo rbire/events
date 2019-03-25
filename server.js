@@ -7,7 +7,6 @@ var Fabric_Client = require('fabric-client');
 var path          = require('path');
 var util          = require('util');
 var os            = require('os');
-
 // Load all of our middleware
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -27,8 +26,7 @@ app.get('/api', function (req, res) {
     res.send('Hello from event server');
 });
 
-
-var port = process.env.PORT || 80;
+var port = process.env.PORT || 8080;
 var server = app.listen(port, function () {
     console.log('Listening on port ' + port);
 });

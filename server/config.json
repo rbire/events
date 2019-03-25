@@ -1,7 +1,9 @@
 {
-    "peer":"grpc://localhost:7051",
-    "events":"grpc://localhost:7053",
-    "orderer":"grpc://localhost:7050",
+    "ca":"http://ca-hlf-ca.cas.svc.cluster.local:7054",
+    "peer":"grpc://peer1-hlf-peer.peers.svc.cluster.local:7051",
+    "events":"grpc://peer1-hlf-peer.peers.svc.cluster.local:7053",
+    "orderer":"grpc://ord1-hlf-ord.orderers.svc.cluster.local:7050",
     "channel":"mychannel",
-    "chaincode":"events"
+    "chaincode":"events",
+    "user":"peer-admin"
 }
