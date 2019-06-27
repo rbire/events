@@ -15,5 +15,7 @@ module.exports = function(app){
   app.get('/get_all_events/:query', function(req, res){
     events.get_all_events(req, res);
   });
-
+  app.post('/add', function(req, res){
+    events.add(req, res);
+  });
 }

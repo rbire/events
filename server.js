@@ -12,7 +12,9 @@ var os            = require('os');
 // this will let us get the data from a POST
 var express = require('express');
 var app = express();
-
+var cors = require('cors')
+app.use(cors())
+app.use(express.json());
 require('./server/routes.js')(app);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -23,7 +25,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/api', function (req, res) {
-    res.send('Hello from event server');
+    res.send('Hello from event server api 1.0 with CORS');
 });
 
 var port = process.env.PORT || 8080;
